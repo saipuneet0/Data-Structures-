@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TABLE_SIZE 10
+
+struct DataItem {
+    int key;
+};
+
+struct DataItem* hashArray[TABLE_SIZE];
+struct DataItem* dummyItem;
+struct DataItem* item;
+
+int hashCode(int key) {
+    return key % TABLE_SIZE;
+}
+
+struct DataItem *search(int key) {
+    int hashIndex = hashCode(key);
+
+    while(hashArray[hashIndex] != NULL) {
+        if(hashArray[hashIndex]->key == key)
+            return hashArray[hashIndex];
+
+        ++hashIndex;
+        hashIndex %= TABLE_SIZE;
+    }
+    return NULL;
+}
+
+void insert(int key) {
+    struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
+    item->key = key;
+
+    int hashIndex = hashCode(key);
+
+    while(hashArray[hashIndex] != NULL && hashArray[hashIndex]->key != -1) {
+        ++hashIndex;
+        hashIndex %= TABLE_SIZE;
+    }
+
+    hashArray[hashIndex] = item;
+}
+
+void display() {
+    int i = 0;
+    for(i = 0; i < TABLE_SIZE; i++) {
+        if(hashArray[i] != NULL) {
+            printf(" (%d)", hashArray[i]->key);
+        } else {
+            printf(" ~~ ");
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    int choice, key;
+
+    // Initialize the hash table
+    for(int i = 0; i < TABLE_SIZE; i++) {
+        hashArray[i] = NULL;
+    }
+
+    do {
+        printf("\n--- Hashing with Linear Probing ---\n");
+        printf("1. Insert\n");
+        printf("2. Search\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter key to insert: ");
+                scanf("%d", &key);
+                insert(key);
+                break;
+            case 2:
+                printf("Enter key to search: ");
+                scanf("%d", &key);
+                item = search(key);
+                if(item != NULL) {
+                    printf("Element found at index: %d\n", hashCode(key));
+                } else {
+                    printf("Element not found.\n");
+                }
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 4);
+
+    for(int i = 0; i < TABLE_SIZE; i++) {
+        if (hashArray[i] != NULL) {
+            free(hashArray[i]);
+        }
+    }
+
+    return 0;
+}
