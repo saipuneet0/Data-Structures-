@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 10
+
+int queue[MAX_SIZE];
+int front = -1, rear = -1;
+
+void enqueue(int element) {
+    if (rear == MAX_SIZE - 1) {
+        printf("Queue Overflow! Cannot enqueue element.\n");
+    } else {
+        if (front == -1) {
+            front = 0;
+        }
+        rear++;
+        queue[rear] = element;
+        printf("%d enqueued to queue.\n", element);
+    }
+}
+
+int dequeue() {
+    if (front == -1 || front > rear) {
+        printf("Queue Underflow! Cannot dequeue element.\n");
+        return -1;
+    } else {
+        int dequeued_element = queue[front];
+        front++;
+        return dequeued_element;
+    }
+}
+
+void display() {
+    if (front == -1 || front > rear) {
+        printf("Queue is empty.\n");
+    } else {
+        printf("Queue elements: ");
+        for (int i = front; i <= rear; i++) {
+            printf("%d ", queue[i]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int choice, element;
+
+    do {
+        printf("\n--- Queue Operations Menu ---\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the element to enqueue: ");
+                scanf("%d", &element);
+                enqueue(element);
+                break;
+            case 2:
+                element = dequeue();
+                if (element != -1) {
+                    printf("Dequeued element: %d\n", element);
+                }
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 4);
+
+    return 0;
+}
