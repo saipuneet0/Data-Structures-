@@ -1,7 +1,6 @@
 #include <iostream>
-#include <algorithm> // Required for std::max
+#include <algorithm>
 
-// Node structure for the AVL tree
 class Node {
 public:
     int key;
@@ -10,70 +9,54 @@ public:
     int height;
 };
 
-// Function to get the height of a node. Returns 0 for a null node.
 int height(Node* N) {
     if (N == NULL)
         return 0;
     return N->height;
 }
 
-// Helper function to create a new node
 Node* newNode(int key) {
     Node* node = new Node();
     node->key = key;
     node->left = NULL;
     node->right = NULL;
-    node->height = 1; // New node is initially at height 1
+    node->height = 1;
     return node;
 }
 
-// Right rotation function.
-// Rotates subtree rooted with y.
 Node* rightRotate(Node* y) {
     Node* x = y->left;
     Node* T2 = x->right;
 
-    // Perform rotation
     x->right = y;
     y->left = T2;
 
-    // Update heights
     y->height = std::max(height(y->left), height(y->right)) + 1;
     x->height = std::max(height(x->left), height(x->right)) + 1;
 
-    // Return new root
     return x;
 }
 
-// Left rotation function.
-// Rotates subtree rooted with x.
 Node* leftRotate(Node* x) {
     Node* y = x->right;
     Node* T2 = y->left;
 
-    // Perform rotation
     y->left = x;
     x->right = T2;
 
-    // Update heights
     x->height = std::max(height(x->left), height(x->right)) + 1;
     y->height = std::max(height(y->left), height(y->right)) + 1;
 
-    // Return new root
     return y;
 }
 
-// Get the balance factor of a node
 int getBalanceFactor(Node* N) {
     if (N == NULL)
         return 0;
     return height(N->left) - height(N->right);
 }
 
-// Recursive function to insert a key into the subtree rooted at node
-// and returns the new root of the subtree.
 Node* insert(Node* node, int key) {
-    // 1. Perform standard BST insertion
     if (node == NULL)
         return newNode(key);
 
@@ -81,42 +64,32 @@ Node* insert(Node* node, int key) {
         node->left = insert(node->left, key);
     else if (key > node->key)
         node->right = insert(node->right, key);
-    else // Equal keys are not allowed in this implementation
+    else
         return node;
 
-    // 2. Update height of the ancestor node
     node->height = 1 + std::max(height(node->left), height(node->right));
 
-    // 3. Get the balance factor of this node to check for imbalance
     int balance = getBalanceFactor(node);
 
-    // 4. If the node becomes unbalanced, there are 4 cases
-    
-    // Left Left Case
     if (balance > 1 && key < node->left->key)
         return rightRotate(node);
 
-    // Right Right Case
     if (balance < -1 && key > node->right->key)
         return leftRotate(node);
 
-    // Left Right Case
     if (balance > 1 && key > node->left->key) {
         node->left = leftRotate(node->left);
         return rightRotate(node);
     }
 
-    // Right Left Case
     if (balance < -1 && key < node->right->key) {
         node->right = rightRotate(node->right);
         return leftRotate(node);
     }
 
-    // 5. Return the (unchanged) node pointer
     return node;
 }
 
-// A function to print the tree using an in-order traversal
 void preOrder(Node* root) {
     if (root != NULL) {
         std::cout << root->key << " ";
@@ -125,11 +98,9 @@ void preOrder(Node* root) {
     }
 }
 
-// Main function to test the insertion logic
 int main() {
     Node* root = NULL;
 
-    // Construct a sample AVL tree
     root = insert(root, 10);
     root = insert(root, 20);
     root = insert(root, 30);
