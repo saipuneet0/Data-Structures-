@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+int main() {
+    int reg_nos[] = {101, 105, 110, 115, 120, 125, 130};
+    int n = sizeof(reg_nos) / sizeof(reg_nos[0]);
+    int search_reg_no = 110;
+    bool found = false;
+    int i;
+
+    for (i = 0; i < n; i++) {
+        if (reg_nos[i] == search_reg_no) {
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        printf("Registration number %d found at index %d.\n", search_reg_no, i);
+    } else {
+        printf("Registration number %d not found in the array.\n", search_reg_no);
+    }
+
+    return 0;
+}
