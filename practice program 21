@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int main() {
+    char haystack[] = "This is a long sentence used as a haystack.";
+    char needle = 's';
+    int i = 0;
+    int found_at_index = -1;
+
+    printf("Haystack: \"%s\"\n", haystack);
+    printf("Needle: '%c'\n", needle);
+
+    while (haystack[i] != '\0') {
+        if (haystack[i] == needle) {
+            found_at_index = i;
+            break;
+        }
+        i++;
+    }
+
+    if (found_at_index != -1) {
+        printf("Needle found at index: %d\n", found_at_index);
+    } else {
+        printf("Needle not found in the haystack.\n");
+    }
+
+    return 0;
+}
