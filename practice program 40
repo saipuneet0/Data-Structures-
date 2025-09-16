@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX_VAL 1000
+
+int main() {
+    int arr[] = {4, 2, 5, 2, 6, 4, 1, 9, 8};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int freq[MAX_VAL] = {0};
+
+    for (int i = 0; i < n; i++) {
+        freq[arr[i]]++;
+    }
+
+    printf("Elements repeated exactly twice: ");
+    for (int i = 0; i < MAX_VAL; i++) {
+        if (freq[i] == 2) {
+            printf("%d ", i);
+        }
+    }
+    printf("\n");
+
+    return 0;
+}
