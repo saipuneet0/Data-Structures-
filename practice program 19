@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int find_missing_element(int arr[], int n) {
+    int max_val = arr[0];
+    int min_val = arr[0];
+
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max_val) {
+            max_val = arr[i];
+        }
+        if (arr[i] < min_val) {
+            min_val = arr[i];
+        }
+    }
+
+    int range = max_val - min_val + 1;
+    int* freq = (int*)calloc(range, sizeof(int));
+
+    for (int i = 0; i < n; i++) {
+        freq[arr[i] - min_val] = 1;
+    }
+
+    int missing_element = -1;
+    for (int i = 0; i < range; i++) {
+        if (freq[i] == 0) {
+            missing_element = i + min_val;
+            break;
+        }
+    }
+
+    free(freq);
+    return missing_element;
+}
+
+int main() {
+    int arr[] = {3, 7, 4, 1, 6, 2};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    int missing = find_missing_element(arr, n);
+
+    if (missing != -1) {
+        printf("The missing element is: %d\n", missing);
+    } else {
+        printf("No missing element found in the sequence.\n");
+    }
+
+    return 0;
+}
