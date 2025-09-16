@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct Node {
+    char data;
+    struct Node* next;
+} Node;
+
+Node* createNode(char data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Error creating node.\n");
+        return NULL;
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+Node* reverseList(Node* head) {
+    Node* prev = NULL;
+    Node* current = head;
+    Node* next = NULL;
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    return prev;
+}
+
+bool isPalindrome(Node* head) {
+    if (head == NULL || head->next == NULL) {
+        return true;
+    }
+
+    Node* slow = head;
+    Node* fast = head;
+
+    while (fast->next != NULL && fast->next->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    Node* secondHalf = reverseList(slow->next);
+    Node* firstHalf = head;
+
+    while (secondHalf != NULL) {
+        if (firstHalf->data != secondHalf->data) {
+            return false;
+        }
+        firstHalf = firstHalf->next;
+        secondHalf = secondHalf->next;
+    }
+    return true;
+}
+
+void printList(Node* head) {
+    while (head != NULL) {
+        printf("%c -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Node* head1 = createNode('R');
+    head1->next = createNode('A');
+    head1->next->next = createNode('C');
+    head1->next->next->next = createNode('E');
+    head1->next->next->next->next = createNode('C');
+    head1->next->next->next->next->next = createNode('A');
+    head1->next->next->next->next->next->next = createNode('R');
+
+    printf("List 1: ");
+    printList(head1);
+    if (isPalindrome(head1)) {
+        printf("The list is a palindrome.\n");
+    } else {
+        printf("The list is not a palindrome.\n");
+    }
+
+    Node* head2 = createNode('G');
+    head2->next = createNode('E');
+    head2->next->next = createNode('E');
+    head2->next->next->next = createNode('K');
+
+    printf("\nList 2: ");
+    printList(head2);
+    if (isPalindrome(head2)) {
+        printf("The list is a palindrome.\n");
+    } else {
+        printf("The list is not a palindrome.\n");
+    }
+
+    return 0;
+}
