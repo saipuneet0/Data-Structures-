@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a new node at the beginning of the list
+Node* insertAtBeginning(Node* head, int data) {
+    Node* newNode = createNode(data);
+    newNode->next = head;
+    return newNode;
+}
+
+// Function to insert a new node at the end of the list
+void insertAtEnd(Node* head, int data) {
+    Node* newNode = createNode(data);
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+    Node* temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+// Function to insert a new node after a specific node
+void insertAfterNode(Node* prev_node, int data) {
+    if (prev_node == NULL) {
+        printf("Previous node cannot be NULL.\n");
+        return;
+    }
+    Node* newNode = createNode(data);
+    newNode->next = prev_node->next;
+    prev_node->next = newNode;
+}
+
+void printList(Node* head) {
+    while (head != NULL) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Node* head = NULL;
+
+    head = insertAtBeginning(head, 20);
+    head = insertAtBeginning(head, 10);
+    printf("After inserting at beginning: ");
+    printList(head);
+
+    insertAtEnd(head, 30);
+    insertAtEnd(head, 40);
+    printf("After inserting at end: ");
+    printList(head);
+
+    insertAfterNode(head->next, 25);
+    printf("After inserting in the middle: ");
+    printList(head);
+
+    return 0;
+}
