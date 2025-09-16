@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int main() {
+    int matrix[3][4] = {
+        {10, 20, 30, 40},
+        {50, 60, 70, 80},
+        {90, 10, 20, 30}
+    };
+    int rows = 3;
+    int cols = 4;
+
+    printf("Matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+
+    printf("Row Sums:\n");
+    for (int i = 0; i < rows; i++) {
+        int row_sum = 0;
+        for (int j = 0; j < cols; j++) {
+            row_sum += matrix[i][j];
+        }
+        printf("Sum of row %d: %d\n", i + 1, row_sum);
+    }
+    printf("\n");
+
+    printf("Column Sums:\n");
+    for (int j = 0; j < cols; j++) {
+        int col_sum = 0;
+        for (int i = 0; i < rows; i++) {
+            col_sum += matrix[i][j];
+        }
+        printf("Sum of column %d: %d\n", j + 1, col_sum);
+    }
+
+    return 0;
+}
