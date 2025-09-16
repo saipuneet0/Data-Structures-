@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+// Linear Search
+bool linearSearch(int arr[], int size, int target) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == target) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Binary Search
+bool binarySearch(int arr[], int size, int target) {
+    int low = 0;
+    int high = size - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        if (arr[mid] == target) {
+            return true;
+        }
+        if (arr[mid] < target) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return false;
+}
+
+int main() {
+    int sortedArr[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+    int unsortedArr[] = {5, 2, 8, 1, 9, 3, 7, 4, 6};
+    int sizeSorted = sizeof(sortedArr) / sizeof(sortedArr[0]);
+    int sizeUnsorted = sizeof(unsortedArr) / sizeof(unsortedArr[0]);
+    int target = 40;
+
+    // Linear Search demonstration
+    if (linearSearch(unsortedArr, sizeUnsorted, target)) {
+        printf("Linear Search: Element %d was found.\n", target);
+    } else {
+        printf("Linear Search: Element %d was not found.\n", target);
+    }
+
+    // Binary Search demonstration
+    if (binarySearch(sortedArr, sizeSorted, target)) {
+        printf("Binary Search: Element %d was found.\n", target);
+    } else {
+        printf("Binary Search: Element %d was not found.\n", target);
+    }
+
+    return 0;
+}
