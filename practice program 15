@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+int data;
+struct Node* left;
+struct Node* right;
+} Node;
+
+Node* create_node(int data) {
+Node* new_node = (Node*)malloc(sizeof(Node));
+new_node->data = data;
+new_node->left = NULL;
+new_node->right = NULL;
+return new_node;
+}
+
+Node* insert(Node* root, int data) {
+if (root == NULL) {
+return create_node(data);
+}
+if (data < root->data) {
+root->left = insert(root->left, data);
+} else if (data > root->data) {
+root->right = insert(root->right, data);
+}
+return root;
+}
+
+Node* search(Node* root, int key) {
+if (root == NULL || root->data == key) {
+return root;
+}
+if (key < root->data) {
+return search(root->left, key);
+}
+return search(root->right, key);
+}
+
+Node* find_min(Node* root) {
+if (root == NULL) {
+return NULL;
+}
+while (root->left != NULL) {
+root = root->left;
+}
+return root;
+}
+
+Node* find_max(Node* root) {
+if (root == NULL) {
+return NULL;
+}
+while (root->right != NULL) {
+root = root->right;
+}
+return root;
+}
+
+int main() {
+Node* root = NULL;
+root = insert(root, 50);
+insert(root, 30);
+insert(root, 20);
+insert(root, 40);
+insert(root, 70);
+insert(root, 60);
+insert(root, 80);
+
+int key_to_find = 40;
+Node* search_result = search(root, key_to_find);
+if (search_result != NULL) {
+    printf("Element %d found in the BST.\n", key_to_find);
+} else {
+    printf("Element %d not found in the BST.\n", key_to_find);
+}
+
+Node* min_node = find_min(root);
+if (min_node != NULL) {
+    printf("Minimum element in the BST is %d.\n", min_node->data);
+}
+
+Node* max_node = find_max(root);
+if (max_node != NULL) {
+    printf("Maximum element in the BST is %d.\n", max_node->data);
+}
+
+return 0;
+}
