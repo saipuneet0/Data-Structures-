@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+void sort_ascending(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void sort_descending(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] < arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void print_array(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Original array: \n");
+    print_array(arr, n);
+
+    sort_ascending(arr, n);
+    printf("Sorted in ascending order: \n");
+    print_array(arr, n);
+
+    // Re-initialize array for descending sort
+    int arr_desc[] = {64, 34, 25, 12, 22, 11, 90};
+    int n_desc = sizeof(arr_desc) / sizeof(arr_desc[0]);
+
+    sort_descending(arr_desc, n_desc);
+    printf("Sorted in descending order: \n");
+    print_array(arr_desc, n_desc);
+
+    return 0;
+}
